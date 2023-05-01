@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>열정가득 망디쌤</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .btnbox {
+            display: flex;
+            margin: 5px;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .header, .footer {
+            position: fixed;
+            left: 0;
+            right: 0;
+            height: 3cm;
+            background-color: #ddd;
+        }
+        .header {
+            top: 0;
+        }
+        .flexbox {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .right {
+            float: right;
+        }
+        .left {
+            float: left;
+        }
+        .footer {
+            bottom: 0;
+        }
+        .content {
+            margin-top: 3cm;
+            margin-bottom: 3cm;
+        }
+        @page {
+            /* 쪽번호, url, 현재시각 정보 제거 */
+            @bottom-center {
+                content: "";
+            }
+
+            /* title 정보 제거 */
+            @top-left {
+                content: "";
+            }
+
+            /* url 정보 제거 */
+            @top-right {
+                content: "";
+            }
+        }
+        @media print {
+            /* 제목 숨기기 */
+            head, title {
+                display: none !important;
+            }
+
+            /* URL 주소 숨기기 */
+            body::after {
+                content: none !important;
+            }
+
+            /* 쪽 번호 숨기기 */
+            .page-numbers {
+                display: none !important;
+            }
+            .dont-print {
+                display: none;
+            }
+            .header, .footer {
+                display: block;
+            }
+            .content {
+                margin-top: 3cm;
+                margin-bottom: 3cm;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div style="text-align: center">
+        <p>열정가득 망디쌤</p>
+    </div>
+    <div class="left">
+        <p th:text="${nowDate}+' 단어시험'"></p>
+    </div>
+    <div class="right">
+        <p>틀린 개수 : <u>________</u></p>
+    </div>
+    <br>
+    <hr>
+</div>
+<div class="content">
+    <table class="table table-striped table-header">
+        <thead>
+        <tr>
+            <th>No</th>
+            <th>영단어</th>
+            <th>뜻</th>
+            <th>채점</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="word, status : ${wordList}">
+            <td th:text="${status.index+1}"></td>
+            <td class="english" th:text="${word.english}" style="display: compact"></td>
+            <td class="korean" th:text="${word.korean}" style="display: compact"></td>
+            <td> <u> _________________________</u></td>
+            <td class="extra"> <u> </u></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="footer">
+    <hr>
+    <div class="dont-print">
+        <button onclick="location.href='./list'"> 돌아가기</button>
+        <button onclick="printPage()"> 출력하기</button>
+        <div class="btnbox">
+            <button class="btn btn-primary btnmg" onclick="englishToggle()">Hiding English</button>
+            <button class="btn btn-primary btnmg" onclick="koreanToggle()">Hiding Korean</button>
+        </div>
+    </div>
+</div>
+<br>
+<script th:inline="javascript">
+    function koreanToggle() {
+        var btnKr = document.getElementsByClassName("korean");
+        var extra = document.getElementsByClassName("extra");
+        if (btnKr[0].style.display !== "none") {
+            for (var i = 0; i < btnKr.length; i++) {
+                btnKr[i].previousDisplay = btnKr[i].style.display;
+                btnKr[i].style.display = "none";
+                extra[i].style.display = "table-cell";
+            }
+        } else {
+            for (var i = 0; i < btnKr.length; i++) {
+                btnKr[i].style.display = "table-cell";
+                extra[i].style.display = "none";
+            }
+        }
+    }
+
+    function englishToggle() {
+        var btnEg = document.getElementsByClassName("english");
+        var extra = document.getElementsByClassName("extra");
+        for (var i = 0; i < btnEg.length; i++){
+            if (btnEg[i].style.display == "none"){
+                btnEg[i].style.display = "table-cell";
+                extra[i].style.display = "none";
+            } else {
+                btnEg[i].style.display = "none";
+                extra[i].style.display = "table-cell";
+            }
+        }
+    }
+
+    function printPage(){
+        window.print();
+    }
+</script>
+</body>
+</html>

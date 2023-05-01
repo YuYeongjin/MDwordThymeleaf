@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>망디의 단어장</title>
+  <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css}" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    #word {
+      height: 300px;
+      width: 1000px;
+    }
+    #text01{
+      border-color: red;
+    }
+  </style>
+</head>
+<body>
+<p id="main">단어 드래그해서 넣기!</p>
+<hr>
+<form action="#" method="post">
+  <input id="word" type="text" name="word">
+  <hr>
+  <input type="submit" value="등록!" id="send">
+</form>
+<!-- <p id="text01" th:text="${wordList}"></p> -->
+<hr>
+<p> 현재 입력한 단어들! </p>
+<table class="table table-success table-striped">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>영단어</th>
+    <th>해석</th>
+    <th>통과</th>
+  </tr>
+  </thead>
+  <tbody>
+  <th:block th:if="${wordSize != null}">
+    <tr th:each="i, status : ${#numbers.sequence(1, wordSize)}">
+      <td th:text="${status.index + 1}"></td>
+      <td th:text="${wordEnglish[status.index]}"></td>
+      <td th:text="${wordKorean[status.index]}"></td>
+      <td>확인</td>
+    </tr>
+  </th:block>
+  </tbody>
+</table>
+<button onclick="location.href='./list'">등록된 단어 목록 보기</button>
+<script>
+
+</script>
+</body>
+</html>

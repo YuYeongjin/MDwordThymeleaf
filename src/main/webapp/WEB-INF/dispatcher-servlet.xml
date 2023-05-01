@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:th="http://www.thymeleaf.org"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.thymeleaf.org http://www.thymeleaf.org/spring3/thymeleaf-spring3-3.0.xsd">
+    <!-- 타임리프 뷰 리졸버 설정 -->
+    <bean id="viewResolver" class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine" />
+        <property name="characterEncoding" value="UTF-8" />
+    </bean>
+
+    <!-- 타임리프 템플릿 엔진 설정 -->
+    <bean id="templateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver" />
+    </bean>
+
+    <!-- 타임리프 템플릿 리졸버 설정 -->
+    <bean id="templateResolver" class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/resources/templates/" />
+        <property name="suffix" value=".html" />
+        <property name="templateMode" value="HTML5" />
+    </bean>
+    <!-- Thymeleaf Spring Security Integration 설정 -->
+    <bean id="authenticationTrustResolver"
+          class="org.thymeleaf.extras.springsecurity5.auth.AuthUtils"
+          factory-method="authenticationTrustResolver" />
+    <bean id="roleExpr"
+          class="org.thymeleaf.extras.springsecurity5.auth.AuthUtils"
+          factory-method="hasRole" />
+    <bean id="authExpr"
+          class="org.thymeleaf.extras.springsecurity5.auth.AuthUtils"
+          factory-method="authenticated" />
+</beans>
